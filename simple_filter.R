@@ -5,11 +5,11 @@
 
 options( stringsAsFactors = F )
 
-decide.n <- function( v, accept.perc = 50 ){
+decide.n <- function( n, accept.perc = 50 ){
   # decide how many values should fit the criteria.  Ideally we want at least 50% + values should satisfy the condition.  We can change this to a different number later.
   my.denom <- 1 / ( accept.perc / 100 )
-  print( my.denom) # for debugging
-  my.n <- ( length( v ) %/% my.denom ) + 1
+  print( my.denom )  # for debugging
+  my.n <- ( n %/% my.denom ) + 1 # integer division
   print( my.n ) # for debugging
   return( as.integer( my.n ) )
 }
@@ -30,8 +30,9 @@ accept.row <- function( v, range.perc = 10 ){
     else {return( FALSE ) }
 }
 
-filter.data.frame <- function( df, range.perc = 10 ){
+filter.data.frame <- function( df, range.perc = 10, accept.perc = 50 ){
   # will accept a data-frame and then make the necessary transformations so that only rows that lie in specific range will be accepted.
+  accept.n <- decide.n( ncol( df ), accept.perc = accept.perc )
   filter.df <- data.frame()
   for( i in 1:nrow( df ) ){
     my.e <- df[ i, ]
