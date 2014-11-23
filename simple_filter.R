@@ -5,6 +5,15 @@
 
 options( stringsAsFactors = F )
 
+decide.n <- function( v, accept.perc = 50 ){
+  # decide how many values should fit the criteria.  Ideally we want at least 50% + values should satisfy the condition.  We can change this to a different number later.
+  my.denom <- 1 / ( accept.perc / 100 )
+  print( my.denom) # for debugging
+  my.n <- ( length( v ) %/% my.denom ) + 1
+  print( my.n ) # for debugging
+  return( as.integer( my.n ) )
+}
+
 accept.row <- function( v, range.perc = 10 ){
     # range.perc is the range in percentage that we want all the values to lie
     # in.  The default value is 10%, but it can be changed.
