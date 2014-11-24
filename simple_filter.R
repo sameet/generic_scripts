@@ -1,3 +1,4 @@
+# A script that will filter a dataframe by selecting all the rows
 # that have similar values.  The "similarity" can be controlled to lie within a
 # certain percentage of each other.  
 
