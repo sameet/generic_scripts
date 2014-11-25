@@ -11,6 +11,12 @@ decide.n <- function( n, accept.perc = 50 ){
   return( as.integer( my.n ) )
 }
 
+accept.row.stats <- function( v, accept.n ){
+   # this function will accept the row if all the values are within one standard
+   # error of the mean.  That way we get around the problems of the arbitrary
+   # cut-offs.
+}
+
 accept.row <- function( v, accept.n, range.perc = 10  ){
     # range.perc is the range in percentage that we want all the values to lie
     # in.  The default value is 10%, but it can be changed.
