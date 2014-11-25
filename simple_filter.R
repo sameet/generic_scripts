@@ -4,6 +4,15 @@
 
 options( stringsAsFactors = F )
 
+stderr.mean <- function( x ){
+   # calculate standard error of the mean 
+   # see
+   # http://stackoverflow.com/questions/2676554/in-r-how-to-find-the-standard-error-of-the-mean
+   # also see
+   # http://en.wikipedia.org/wiki/Standard_error
+   sqrt( var( x, na.rm=T )/length( na.omit( x ) ) )
+}
+
 decide.n <- function( n, accept.perc = 50 ){
   # decide how many values should fit the criteria.  Ideally we want at least 50% + values should satisfy the condition.  We can change this to a different number later.
   my.denom <- 1 / ( accept.perc / 100 )
@@ -15,6 +24,12 @@ accept.row.stats <- function( v, accept.n ){
    # this function will accept the row if all the values are within one standard
    # error of the mean.  That way we get around the problems of the arbitrary
    # cut-offs.
+   sem <- stderr.mean( v ) # calculate the standard error of the mean for the
+                           # values in the row.
+   my.mean <- mean( v )
+   my.filt.vect <- abs( v - my.mean ) <= sem
+   if( sum( my.filt.vect ) >= accept.n+1 ){ return( TRUE ) }
+   return( FALSE )
 }
 
 accept.row <- function( v, accept.n, range.perc = 10  ){
