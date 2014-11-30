@@ -1,11 +1,11 @@
 # A script that will filter a dataframe by selecting all the rows
 # that have similar values.  The "similarity" can be controlled to lie within a
-# certain percentage of each other.  
+# certain percentage of each other.
 
 options( stringsAsFactors = F )
 
 stderr.mean <- function( x ){
-   # calculate standard error of the mean 
+   # calculate standard error of the mean
    # see
    # http://stackoverflow.com/questions/2676554/in-r-how-to-find-the-standard-error-of-the-mean
    # also see
@@ -38,7 +38,7 @@ accept.row <- function( v, accept.n, range.perc = 10  ){
     # max.val <- min( v )
     max.val <- max( v )
     accept.diff <- max.val * ( range.perc / 100 )
-    my.filt.vect <-  abs( v - max.val ) <= accept.diff 
+    my.filt.vect <-  abs( v - max.val ) <= accept.diff
     if( sum( my.filt.vect ) >= accept.n + 1){return( TRUE )}
     else {return( FALSE ) }
 }
@@ -50,8 +50,11 @@ filter.data.frame <- function( df, range.perc = 10, accept.perc = 50 ){
   for( i in 1:nrow( df ) ){
     my.e <- df[ i, ]
     v    <- as.numeric( my.e )
-    if( accept.row( v, accept.n, range.perc = range.perc ) ){ filter.df <- rbind( filter.df, my.e ) 
+    if( accept.row( v, accept.n, range.perc = range.perc ) ){ filter.df <- rbind( filter.df, my.e )
     }
   }
   return( filter.df )
+}
+
+test.filter.df <- function( df, range.prec=10, accept.perc=50 ){
 }
