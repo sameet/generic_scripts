@@ -50,7 +50,8 @@ filter.data.frame <- function( df, range.perc = 10, accept.perc = 50 ){
   for( i in 1:nrow( df ) ){
     my.e <- df[ i, ]
     v    <- as.numeric( my.e )
-    if( accept.row( v, accept.n, range.perc = range.perc ) ){ filter.df <- rbind( filter.df, my.e )
+    # if( accept.row( v, accept.n, range.perc = range.perc ) ){ filter.df <- rbind( filter.df, my.e )
+    if( accept.row.stats( v, accept.n ) ){ filter.df <- rbind( filter.df, my.e )
     }
   }
   return( filter.df )
