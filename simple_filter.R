@@ -2,6 +2,8 @@
 # that have similar values.  The "similarity" can be controlled to lie within a
 # certain percentage of each other.
 
+#TODO! We would ideally like to select when we want statistical filter or just a simple filter based on maximum or minimum value in the row.
+
 options( stringsAsFactors = F )
 
 stderr.mean <- function( x ){
