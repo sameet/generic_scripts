@@ -1,8 +1,17 @@
 # A script that will filter a dataframe by selecting all the rows
 # that have similar values.  The "similarity" can be controlled to lie within a
-# certain percentage of each other.  
+# certain percentage of each other.
 
 options( stringsAsFactors = F )
+
+stderr.mean <- function( x ){
+   # calculate standard error of the mean
+   # see
+   # http://stackoverflow.com/questions/2676554/in-r-how-to-find-the-standard-error-of-the-mean
+   # also see
+   # http://en.wikipedia.org/wiki/Standard_error
+   sqrt( var( x, na.rm=T )/length( na.omit( x ) ) )
+}
 
 decide.n <- function( n, accept.perc = 50 ){
   # decide how many values should fit the criteria.  Ideally we want at least 50% + values should satisfy the condition.  We can change this to a different number later.
@@ -11,13 +20,29 @@ decide.n <- function( n, accept.perc = 50 ){
   return( as.integer( my.n ) )
 }
 
+accept.row.stats <- function( v, accept.n ){
+   # this function will accept the row if all the values are within one standard
+   # error of the mean.  That way we get around the problems of the arbitrary
+   # cut-offs.
+   sem <- stderr.mean( v ) # calculate the standard error of the mean for the
+                           # values in the row.
+   my.sd <- sd( v )
+   my.mean <- mean( v )
+  # my.filt.vect <- abs( v - my.mean ) <= (sem * 2)
+   my.filt.vect <- abs( v - my.mean ) <= my.sd
+   print( list( v=v, filtered=my.filt.vect ) ) # for debugging
+   if( is.na( my.filt.vect ) ){ return( FALSE ) }
+   if( sum( my.filt.vect ) >= accept.n + 1 ){ return( TRUE ) }
+   return( FALSE )
+}
+
 accept.row <- function( v, accept.n, range.perc = 10  ){
     # range.perc is the range in percentage that we want all the values to lie
     # in.  The default value is 10%, but it can be changed.
     # max.val <- min( v )
     max.val <- max( v )
     accept.diff <- max.val * ( range.perc / 100 )
-    my.filt.vect <-  abs( v - max.val ) <= accept.diff 
+    my.filt.vect <-  abs( v - max.val ) <= accept.diff
     if( sum( my.filt.vect ) >= accept.n + 1){return( TRUE )}
     else {return( FALSE ) }
 }
@@ -29,8 +54,12 @@ filter.data.frame <- function( df, range.perc = 10, accept.perc = 50 ){
   for( i in 1:nrow( df ) ){
     my.e <- df[ i, ]
     v    <- as.numeric( my.e )
-    if( accept.row( v, accept.n, range.perc = range.perc ) ){ filter.df <- rbind( filter.df, my.e ) 
+    # if( accept.row( v, accept.n, range.perc = range.perc ) ){ filter.df <- rbind( filter.df, my.e )
+    if( accept.row.stats( v, accept.n ) ){ filter.df <- rbind( filter.df, my.e )
     }
   }
   return( filter.df )
+}
+
+test.filter.df <- function( df, range.prec=10, accept.perc=50 ){
 }
