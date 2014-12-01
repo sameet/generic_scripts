@@ -29,7 +29,7 @@ accept.row.stats <- function( v, accept.n ){
    my.mean <- mean( v )
    my.filt.vect <- abs( v - my.mean ) <= sem
    print( list( v=v, filtered=my.filt.vect ) ) # for debugging
-   if( is.na( my.filt.vec) ){ return( FALSE ) }
+   if( is.na( my.filt.vect ) ){ return( FALSE ) }
    if( sum( my.filt.vect ) >= accept.n + 1 ){ return( TRUE ) }
    return( FALSE )
 }
