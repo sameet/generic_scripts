@@ -26,8 +26,10 @@ accept.row.stats <- function( v, accept.n ){
    # cut-offs.
    sem <- stderr.mean( v ) # calculate the standard error of the mean for the
                            # values in the row.
+   my.sd <- sd( v )
    my.mean <- mean( v )
-   my.filt.vect <- abs( v - my.mean ) <= (sem * 2)
+  # my.filt.vect <- abs( v - my.mean ) <= (sem * 2)
+   my.filt.vect <- abs( v - my.mean ) <= my.sd
    print( list( v=v, filtered=my.filt.vect ) ) # for debugging
    if( is.na( my.filt.vect ) ){ return( FALSE ) }
    if( sum( my.filt.vect ) >= accept.n + 1 ){ return( TRUE ) }
