@@ -28,7 +28,9 @@ accept.row.stats <- function( v, accept.n ){
                            # values in the row.
    my.mean <- mean( v )
    my.filt.vect <- abs( v - my.mean ) <= sem
-   if( sum( my.filt.vect ) >= accept.n+1 ){ return( TRUE ) }
+   print( list( v=v, filtered=my.filt.vect ) ) # for debugging
+   print(" ")
+   if( sum( my.filt.vect ) >= accept.n + 1 ){ return( TRUE ) }
    return( FALSE )
 }
 
