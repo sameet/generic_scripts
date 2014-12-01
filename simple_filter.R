@@ -29,7 +29,7 @@ accept.row.stats <- function( v, accept.n ){
    my.mean <- mean( v )
    my.filt.vect <- abs( v - my.mean ) <= sem
    print( list( v=v, filtered=my.filt.vect ) ) # for debugging
-   print(" ")
+   if( is.na( my.filt.vec) ){ return( FALSE ) }
    if( sum( my.filt.vect ) >= accept.n + 1 ){ return( TRUE ) }
    return( FALSE )
 }
@@ -41,7 +41,6 @@ accept.row <- function( v, accept.n, range.perc = 10  ){
     max.val <- max( v )
     accept.diff <- max.val * ( range.perc / 100 )
     my.filt.vect <-  abs( v - max.val ) <= accept.diff
-    if( is.na( my.filt.vect ) ){return( FALSE ) }
     if( sum( my.filt.vect ) >= accept.n + 1){return( TRUE )}
     else {return( FALSE ) }
 }
