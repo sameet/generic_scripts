@@ -3,6 +3,7 @@
 # certain percentage of each other.
 
 #TODO! We would ideally like to select when we want statistical filter or just a simple filter based on maximum or minimum value in the row.
+# TODO! WE also need to filter on data that have values 2 < and < 0.5 (these are log ratios)
 
 options( stringsAsFactors = F )
 
