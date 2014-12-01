@@ -27,7 +27,7 @@ accept.row.stats <- function( v, accept.n ){
    sem <- stderr.mean( v ) # calculate the standard error of the mean for the
                            # values in the row.
    my.mean <- mean( v )
-   my.filt.vect <- abs( v - my.mean ) <= sem
+   my.filt.vect <- abs( v - my.mean ) <= (sem * 2)
    print( list( v=v, filtered=my.filt.vect ) ) # for debugging
    if( is.na( my.filt.vect ) ){ return( FALSE ) }
    if( sum( my.filt.vect ) >= accept.n + 1 ){ return( TRUE ) }
